@@ -6,8 +6,8 @@ Low output latency streaming HTML parser/rewriter with CSS selector-based API.
 
 ```ts
 import { concat } from "https://deno.land/std@0.125.0/bytes/mod.ts";
-import init, { HTMLRewriter } from "https://deno.land/x/lol_html/mod.js"";
-import wasm from "https://deno.land/x/lol_html/wasm.js"";
+import init, { HTMLRewriter } from "https://deno.land/x/lol_html/mod.js";
+import wasm from "https://deno.land/x/lol_html/wasm.js";
 
 await init(wasm());
 
