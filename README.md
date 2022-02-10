@@ -1,6 +1,6 @@
 # LOL(😂) HTML for Deno
 
-Low output latency streaming HTML parser/rewriter with CSS selector-based API.
+Deno bindings for the Rust crate [cloudflare/lol-html](https://github.com/cloudflare/lol-html), the Low Output Latency streaming HTML rewriter/parser with CSS-selector based API, via Webassembly.
 
 ## Example
 
