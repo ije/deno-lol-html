@@ -1,0 +1,24 @@
+[package]
+name = "deno-lol-html"
+version = "0.0.0"
+description = "Low output latency streaming HTML parser/rewriter with CSS selector-based API."
+repository = "https://github.com/ije/deno-lol-html"
+authors = ["ije"]
+license = "MIT"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+js-sys = "0.3.56"
+lol_html = "0.3.1"
+serde = { version = "1.0.136", features = ["derive"] }
+serde-wasm-bindgen = "0.4.2"
+wasm-bindgen = "0.2.79"
+thiserror = "1.0.30"
+encoding_rs = "0.8.30"
+
+[profile.release]
+# Tell `rustc` to optimize for speed and size
+lto = true
