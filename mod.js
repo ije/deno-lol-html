@@ -1125,7 +1125,7 @@ async function init(input) {
     var ret = getStringFromWasm0(arg0, arg1);
     return addHeapObject(ret);
   };
-  imports.wbg.__wbg_html_f81430e6f56247d4 = function (arg0) {
+  imports.wbg.__wbg_html_b0071d19c1a39cfa = function (arg0) {
     var ret = getObject(arg0).html;
     return isLikeNone(ret) ? 0xFFFFFF : ret ? 1 : 0;
   };
@@ -1133,15 +1133,15 @@ async function init(input) {
     var ret = DocumentEnd.__wrap(arg0);
     return addHeapObject(ret);
   };
-  imports.wbg.__wbg_element_a7b08d8ed330dda9 = function (arg0) {
+  imports.wbg.__wbg_element_0da323589dcb66b2 = function (arg0) {
     var ret = getObject(arg0).element;
     return isLikeNone(ret) ? 0 : addHeapObject(ret);
   };
-  imports.wbg.__wbg_comments_a2b140cb36e1fa5d = function (arg0) {
+  imports.wbg.__wbg_comments_8e74bbda9121f71c = function (arg0) {
     var ret = getObject(arg0).comments;
     return isLikeNone(ret) ? 0 : addHeapObject(ret);
   };
-  imports.wbg.__wbg_text_c7807cc0180e3715 = function (arg0) {
+  imports.wbg.__wbg_text_5c75e3041992b1e4 = function (arg0) {
     var ret = getObject(arg0).text;
     return isLikeNone(ret) ? 0 : addHeapObject(ret);
   };
@@ -1157,19 +1157,19 @@ async function init(input) {
     var ret = TextChunk.__wrap(arg0);
     return addHeapObject(ret);
   };
-  imports.wbg.__wbg_doctype_728219f2af0b83af = function (arg0) {
+  imports.wbg.__wbg_doctype_a00b1a68581cbd47 = function (arg0) {
     var ret = getObject(arg0).doctype;
     return isLikeNone(ret) ? 0 : addHeapObject(ret);
   };
-  imports.wbg.__wbg_comments_c81f8b9883239f0d = function (arg0) {
+  imports.wbg.__wbg_comments_e61c9218b1bdc3e9 = function (arg0) {
     var ret = getObject(arg0).comments;
     return isLikeNone(ret) ? 0 : addHeapObject(ret);
   };
-  imports.wbg.__wbg_text_db50c1825f8ec763 = function (arg0) {
+  imports.wbg.__wbg_text_ee6d33cf57dfa6a1 = function (arg0) {
     var ret = getObject(arg0).text;
     return isLikeNone(ret) ? 0 : addHeapObject(ret);
   };
-  imports.wbg.__wbg_end_bf11584c40a6feed = function (arg0) {
+  imports.wbg.__wbg_end_da54321b68560537 = function (arg0) {
     var ret = getObject(arg0).end;
     return isLikeNone(ret) ? 0 : addHeapObject(ret);
   };
