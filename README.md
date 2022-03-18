@@ -7,9 +7,9 @@ Deno bindings for the Rust crate [cloudflare/lol-html](https://github.com/cloudf
 ```ts
 import { concat } from "https://deno.land/std@0.125.0/bytes/mod.ts";
 import init, { HTMLRewriter } from "https://deno.land/x/lol_html/mod.js";
-import wasm from "https://deno.land/x/lol_html/wasm.js";
+import decodeWasm from "https://deno.land/x/lol_html/wasm.js";
 
-await init(wasm());
+await init(decodeWasm());
 
 const enc = new TextEncoder()
 const dec = new TextDecoder()
@@ -37,5 +37,6 @@ for (const part of parts) {
 }
 
 rewriter.end();
+rewriter.free();
 console.log(dec.decode(concat(...chunks)));
 ```

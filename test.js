@@ -1,8 +1,8 @@
-import { concat } from "https://deno.land/std@0.125.0/bytes/mod.ts";
+import { concat } from "https://deno.land/std@0.128.0/bytes/mod.ts";
 import init, { HTMLRewriter } from "./mod.js";
-import wasm from "./wasm.js";
+import decodeWasm from "./wasm.js";
 
-await init(wasm());
+await init(decodeWasm());
 
 const enc = new TextEncoder()
 const dec = new TextDecoder()
@@ -29,5 +29,9 @@ for (const part of parts) {
   rewriter.write(enc.encode(part));
 }
 
-rewriter.end();
-console.log(dec.decode(concat(...chunks)));
+try {
+  rewriter.end();
+  console.log(dec.decode(concat(...chunks)));
+} finally {
+  rewriter.free();
+}

@@ -1,7 +1,7 @@
 [package]
 name = "deno-lol-html"
-version = "0.0.2"
-description = "Low output latency streaming HTML parser/rewriter with CSS selector-based API."
+version = "0.0.3"
+description = "Low output latency streaming HTML parser/rewriter with CSS selector-based API in Deno, via Webassembly."
 repository = "https://github.com/ije/deno-lol-html"
 authors = ["ije"]
 license = "MIT"
