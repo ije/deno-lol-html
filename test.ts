@@ -1,13 +1,7 @@
-# LOL(😂) HTML for Deno
-
-Deno bindings for the Rust crate [cloudflare/lol-html](https://github.com/cloudflare/lol-html), the Low Output Latency streaming HTML rewriter/parser with CSS-selector based API, via Webassembly.
-
-## Example
-
-```ts
 import { concat } from "https://deno.land/std@0.145.0/bytes/mod.ts";
-import init, { HTMLRewriter } from "https://deno.land/x/lol_html/mod.js";
-import wasm from "https://deno.land/x/lol_html/wasm.js";
+import init, { HTMLRewriter } from "./mod.js";
+import wasm from "./wasm.js";
+import type { Element } from "./types.d.ts";
 
 await init(wasm());
 
@@ -41,4 +35,3 @@ try {
 } finally {
   rewriter.free();
 }
-```

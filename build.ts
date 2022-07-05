@@ -1,6 +1,6 @@
-import { dim } from "https://deno.land/std@0.128.0/fmt/colors.ts";
-import { encode } from "https://deno.land/std@0.128.0/encoding/base64.ts";
-import { ensureDir } from "https://deno.land/std@0.128.0/fs/ensure_dir.ts";
+import { dim } from "https://deno.land/std@0.145.0/fmt/colors.ts";
+import { encode } from "https://deno.land/std@0.145.0/encoding/base64.ts";
+import { ensureDir } from "https://deno.land/std@0.145.0/fs/ensure_dir.ts";
 import { compress } from "https://deno.land/x/lz4@v0.1.2/mod.ts";
 
 async function run(cmd: string[]) {
@@ -24,7 +24,6 @@ if (import.meta.main) {
     try {
       prevWasmSize = (await Deno.stat("./wasm.js")).size;
     } catch (e) {}
-    await ensureDir("./dist");
     await Deno.writeTextFile(
       "./wasm.js",
       `import { decompress } from "https://deno.land/x/lz4@v0.1.2/mod.ts";\nexport default () => decompress(Uint8Array.from(atob("${
@@ -35,7 +34,10 @@ if (import.meta.main) {
       "./mod.js",
       jsCode
         .replace(`import * as __wbg_star0 from 'env';`, "")
-        .replace(`imports['env'] = __wbg_star0;`, `imports['env'] = { now: () => Date.now() };`),
+        .replace(
+          `imports['env'] = __wbg_star0;`,
+          `imports['env'] = { now: () => Date.now() };`,
+        ),
     );
     await Deno.writeTextFile("./types.d.ts", dtsCode);
     await run(["deno", "fmt", "-q", "./mod.js", "./types.d.ts"]);
@@ -44,7 +46,9 @@ if (import.meta.main) {
     if (increased) {
       console.log(
         `${dim("[INFO]")}: wasm.js ${increased.toFixed(2)}% (${
-          [prevWasmSize, wasmSize].filter(Boolean).map((n) => (n / (1024 * 1024)).toFixed(2) + "MB")
+          [prevWasmSize, wasmSize].filter(Boolean).map((n) =>
+            (n / (1024 * 1024)).toFixed(2) + "MB"
+          )
             .join(" -> ")
         })`,
       );

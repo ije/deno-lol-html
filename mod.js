@@ -22,16 +22,19 @@ function takeObject(idx) {
   return ret;
 }
 
-let cachedTextDecoder = new TextDecoder("utf-8", { ignoreBOM: true, fatal: true });
+const cachedTextDecoder = new TextDecoder("utf-8", {
+  ignoreBOM: true,
+  fatal: true,
+});
 
 cachedTextDecoder.decode();
 
-let cachegetUint8Memory0 = null;
+let cachedUint8Memory0;
 function getUint8Memory0() {
-  if (cachegetUint8Memory0 === null || cachegetUint8Memory0.buffer !== wasm.memory.buffer) {
-    cachegetUint8Memory0 = new Uint8Array(wasm.memory.buffer);
+  if (cachedUint8Memory0.byteLength === 0) {
+    cachedUint8Memory0 = new Uint8Array(wasm.memory.buffer);
   }
-  return cachegetUint8Memory0;
+  return cachedUint8Memory0;
 }
 
 function getStringFromWasm0(ptr, len) {
@@ -114,20 +117,21 @@ function debugString(val) {
 
 let WASM_VECTOR_LEN = 0;
 
-let cachedTextEncoder = new TextEncoder("utf-8");
+const cachedTextEncoder = new TextEncoder("utf-8");
 
-const encodeString = (typeof cachedTextEncoder.encodeInto === "function"
-  ? function (arg, view) {
-    return cachedTextEncoder.encodeInto(arg, view);
-  }
-  : function (arg, view) {
-    const buf = cachedTextEncoder.encode(arg);
-    view.set(buf);
-    return {
-      read: arg.length,
-      written: buf.length,
-    };
-  });
+const encodeString =
+  (typeof cachedTextEncoder.encodeInto === "function"
+    ? function (arg, view) {
+      return cachedTextEncoder.encodeInto(arg, view);
+    }
+    : function (arg, view) {
+      const buf = cachedTextEncoder.encode(arg);
+      view.set(buf);
+      return {
+        read: arg.length,
+        written: buf.length,
+      };
+    });
 
 function passStringToWasm0(arg, malloc, realloc) {
   if (realloc === undefined) {
@@ -166,12 +170,12 @@ function passStringToWasm0(arg, malloc, realloc) {
   return ptr;
 }
 
-let cachegetInt32Memory0 = null;
+let cachedInt32Memory0;
 function getInt32Memory0() {
-  if (cachegetInt32Memory0 === null || cachegetInt32Memory0.buffer !== wasm.memory.buffer) {
-    cachegetInt32Memory0 = new Int32Array(wasm.memory.buffer);
+  if (cachedInt32Memory0.byteLength === 0) {
+    cachedInt32Memory0 = new Int32Array(wasm.memory.buffer);
   }
-  return cachegetInt32Memory0;
+  return cachedInt32Memory0;
 }
 
 function isLikeNone(x) {
@@ -227,9 +231,19 @@ export class Comment {
   before(content, content_type) {
     try {
       const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-      var ptr0 = passStringToWasm0(content, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
-      var len0 = WASM_VECTOR_LEN;
-      wasm.comment_before(retptr, this.ptr, ptr0, len0, isLikeNone(content_type) ? 0 : addHeapObject(content_type));
+      const ptr0 = passStringToWasm0(
+        content,
+        wasm.__wbindgen_malloc,
+        wasm.__wbindgen_realloc,
+      );
+      const len0 = WASM_VECTOR_LEN;
+      wasm.comment_before(
+        retptr,
+        this.ptr,
+        ptr0,
+        len0,
+        isLikeNone(content_type) ? 0 : addHeapObject(content_type),
+      );
       var r0 = getInt32Memory0()[retptr / 4 + 0];
       var r1 = getInt32Memory0()[retptr / 4 + 1];
       if (r1) {
@@ -246,9 +260,19 @@ export class Comment {
   after(content, content_type) {
     try {
       const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-      var ptr0 = passStringToWasm0(content, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
-      var len0 = WASM_VECTOR_LEN;
-      wasm.comment_after(retptr, this.ptr, ptr0, len0, isLikeNone(content_type) ? 0 : addHeapObject(content_type));
+      const ptr0 = passStringToWasm0(
+        content,
+        wasm.__wbindgen_malloc,
+        wasm.__wbindgen_realloc,
+      );
+      const len0 = WASM_VECTOR_LEN;
+      wasm.comment_after(
+        retptr,
+        this.ptr,
+        ptr0,
+        len0,
+        isLikeNone(content_type) ? 0 : addHeapObject(content_type),
+      );
       var r0 = getInt32Memory0()[retptr / 4 + 0];
       var r1 = getInt32Memory0()[retptr / 4 + 1];
       if (r1) {
@@ -265,9 +289,19 @@ export class Comment {
   replace(content, content_type) {
     try {
       const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-      var ptr0 = passStringToWasm0(content, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
-      var len0 = WASM_VECTOR_LEN;
-      wasm.comment_replace(retptr, this.ptr, ptr0, len0, isLikeNone(content_type) ? 0 : addHeapObject(content_type));
+      const ptr0 = passStringToWasm0(
+        content,
+        wasm.__wbindgen_malloc,
+        wasm.__wbindgen_realloc,
+      );
+      const len0 = WASM_VECTOR_LEN;
+      wasm.comment_replace(
+        retptr,
+        this.ptr,
+        ptr0,
+        len0,
+        isLikeNone(content_type) ? 0 : addHeapObject(content_type),
+      );
       var r0 = getInt32Memory0()[retptr / 4 + 0];
       var r1 = getInt32Memory0()[retptr / 4 + 1];
       if (r1) {
@@ -291,9 +325,7 @@ export class Comment {
       wasm.__wbindgen_add_to_stack_pointer(16);
     }
   }
-  /**
-   * @returns {boolean}
-   */
+  /** */
   get removed() {
     try {
       const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
@@ -309,9 +341,7 @@ export class Comment {
       wasm.__wbindgen_add_to_stack_pointer(16);
     }
   }
-  /**
-   * @returns {string}
-   */
+  /** */
   get text() {
     try {
       const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
@@ -354,9 +384,7 @@ export class Doctype {
     const ptr = this.__destroy_into_raw();
     wasm.__wbg_doctype_free(ptr);
   }
-  /**
-   * @returns {string | undefined}
-   */
+  /** */
   get name() {
     try {
       const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
@@ -378,9 +406,7 @@ export class Doctype {
       wasm.__wbindgen_add_to_stack_pointer(16);
     }
   }
-  /**
-   * @returns {string | undefined}
-   */
+  /** */
   get publicId() {
     try {
       const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
@@ -402,9 +428,7 @@ export class Doctype {
       wasm.__wbindgen_add_to_stack_pointer(16);
     }
   }
-  /**
-   * @returns {string | undefined}
-   */
+  /** */
   get systemId() {
     try {
       const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
@@ -454,9 +478,19 @@ export class DocumentEnd {
   append(content, content_type) {
     try {
       const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-      var ptr0 = passStringToWasm0(content, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
-      var len0 = WASM_VECTOR_LEN;
-      wasm.documentend_append(retptr, this.ptr, ptr0, len0, isLikeNone(content_type) ? 0 : addHeapObject(content_type));
+      const ptr0 = passStringToWasm0(
+        content,
+        wasm.__wbindgen_malloc,
+        wasm.__wbindgen_realloc,
+      );
+      const len0 = WASM_VECTOR_LEN;
+      wasm.documentend_append(
+        retptr,
+        this.ptr,
+        ptr0,
+        len0,
+        isLikeNone(content_type) ? 0 : addHeapObject(content_type),
+      );
       var r0 = getInt32Memory0()[retptr / 4 + 0];
       var r1 = getInt32Memory0()[retptr / 4 + 1];
       if (r1) {
@@ -494,9 +528,19 @@ export class Element {
   before(content, content_type) {
     try {
       const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-      var ptr0 = passStringToWasm0(content, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
-      var len0 = WASM_VECTOR_LEN;
-      wasm.element_before(retptr, this.ptr, ptr0, len0, isLikeNone(content_type) ? 0 : addHeapObject(content_type));
+      const ptr0 = passStringToWasm0(
+        content,
+        wasm.__wbindgen_malloc,
+        wasm.__wbindgen_realloc,
+      );
+      const len0 = WASM_VECTOR_LEN;
+      wasm.element_before(
+        retptr,
+        this.ptr,
+        ptr0,
+        len0,
+        isLikeNone(content_type) ? 0 : addHeapObject(content_type),
+      );
       var r0 = getInt32Memory0()[retptr / 4 + 0];
       var r1 = getInt32Memory0()[retptr / 4 + 1];
       if (r1) {
@@ -513,9 +557,19 @@ export class Element {
   after(content, content_type) {
     try {
       const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-      var ptr0 = passStringToWasm0(content, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
-      var len0 = WASM_VECTOR_LEN;
-      wasm.element_after(retptr, this.ptr, ptr0, len0, isLikeNone(content_type) ? 0 : addHeapObject(content_type));
+      const ptr0 = passStringToWasm0(
+        content,
+        wasm.__wbindgen_malloc,
+        wasm.__wbindgen_realloc,
+      );
+      const len0 = WASM_VECTOR_LEN;
+      wasm.element_after(
+        retptr,
+        this.ptr,
+        ptr0,
+        len0,
+        isLikeNone(content_type) ? 0 : addHeapObject(content_type),
+      );
       var r0 = getInt32Memory0()[retptr / 4 + 0];
       var r1 = getInt32Memory0()[retptr / 4 + 1];
       if (r1) {
@@ -532,9 +586,19 @@ export class Element {
   replace(content, content_type) {
     try {
       const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-      var ptr0 = passStringToWasm0(content, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
-      var len0 = WASM_VECTOR_LEN;
-      wasm.element_replace(retptr, this.ptr, ptr0, len0, isLikeNone(content_type) ? 0 : addHeapObject(content_type));
+      const ptr0 = passStringToWasm0(
+        content,
+        wasm.__wbindgen_malloc,
+        wasm.__wbindgen_realloc,
+      );
+      const len0 = WASM_VECTOR_LEN;
+      wasm.element_replace(
+        retptr,
+        this.ptr,
+        ptr0,
+        len0,
+        isLikeNone(content_type) ? 0 : addHeapObject(content_type),
+      );
       var r0 = getInt32Memory0()[retptr / 4 + 0];
       var r1 = getInt32Memory0()[retptr / 4 + 1];
       if (r1) {
@@ -558,9 +622,7 @@ export class Element {
       wasm.__wbindgen_add_to_stack_pointer(16);
     }
   }
-  /**
-   * @returns {boolean}
-   */
+  /** */
   get removed() {
     try {
       const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
@@ -576,9 +638,7 @@ export class Element {
       wasm.__wbindgen_add_to_stack_pointer(16);
     }
   }
-  /**
-   * @returns {string}
-   */
+  /** */
   get tagName() {
     try {
       const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
@@ -600,14 +660,16 @@ export class Element {
       wasm.__wbindgen_free(ptr0, len0);
     }
   }
-  /**
-   * @param {string} name
-   */
+  /** */
   set tagName(name) {
     try {
       const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-      var ptr0 = passStringToWasm0(name, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
-      var len0 = WASM_VECTOR_LEN;
+      const ptr0 = passStringToWasm0(
+        name,
+        wasm.__wbindgen_malloc,
+        wasm.__wbindgen_realloc,
+      );
+      const len0 = WASM_VECTOR_LEN;
       wasm.element_set_tag_name(retptr, this.ptr, ptr0, len0);
       var r0 = getInt32Memory0()[retptr / 4 + 0];
       var r1 = getInt32Memory0()[retptr / 4 + 1];
@@ -618,9 +680,7 @@ export class Element {
       wasm.__wbindgen_add_to_stack_pointer(16);
     }
   }
-  /**
-   * @returns {any}
-   */
+  /** */
   get namespaceURI() {
     try {
       const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
@@ -636,9 +696,7 @@ export class Element {
       wasm.__wbindgen_add_to_stack_pointer(16);
     }
   }
-  /**
-   * @returns {any}
-   */
+  /** */
   get attributes() {
     try {
       const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
@@ -661,8 +719,12 @@ export class Element {
   getAttribute(name) {
     try {
       const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-      var ptr0 = passStringToWasm0(name, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
-      var len0 = WASM_VECTOR_LEN;
+      const ptr0 = passStringToWasm0(
+        name,
+        wasm.__wbindgen_malloc,
+        wasm.__wbindgen_realloc,
+      );
+      const len0 = WASM_VECTOR_LEN;
       wasm.element_getAttribute(retptr, this.ptr, ptr0, len0);
       var r0 = getInt32Memory0()[retptr / 4 + 0];
       var r1 = getInt32Memory0()[retptr / 4 + 1];
@@ -688,8 +750,12 @@ export class Element {
   hasAttribute(name) {
     try {
       const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-      var ptr0 = passStringToWasm0(name, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
-      var len0 = WASM_VECTOR_LEN;
+      const ptr0 = passStringToWasm0(
+        name,
+        wasm.__wbindgen_malloc,
+        wasm.__wbindgen_realloc,
+      );
+      const len0 = WASM_VECTOR_LEN;
       wasm.element_hasAttribute(retptr, this.ptr, ptr0, len0);
       var r0 = getInt32Memory0()[retptr / 4 + 0];
       var r1 = getInt32Memory0()[retptr / 4 + 1];
@@ -709,10 +775,18 @@ export class Element {
   setAttribute(name, value) {
     try {
       const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-      var ptr0 = passStringToWasm0(name, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
-      var len0 = WASM_VECTOR_LEN;
-      var ptr1 = passStringToWasm0(value, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
-      var len1 = WASM_VECTOR_LEN;
+      const ptr0 = passStringToWasm0(
+        name,
+        wasm.__wbindgen_malloc,
+        wasm.__wbindgen_realloc,
+      );
+      const len0 = WASM_VECTOR_LEN;
+      const ptr1 = passStringToWasm0(
+        value,
+        wasm.__wbindgen_malloc,
+        wasm.__wbindgen_realloc,
+      );
+      const len1 = WASM_VECTOR_LEN;
       wasm.element_setAttribute(retptr, this.ptr, ptr0, len0, ptr1, len1);
       var r0 = getInt32Memory0()[retptr / 4 + 0];
       var r1 = getInt32Memory0()[retptr / 4 + 1];
@@ -729,8 +803,12 @@ export class Element {
   removeAttribute(name) {
     try {
       const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-      var ptr0 = passStringToWasm0(name, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
-      var len0 = WASM_VECTOR_LEN;
+      const ptr0 = passStringToWasm0(
+        name,
+        wasm.__wbindgen_malloc,
+        wasm.__wbindgen_realloc,
+      );
+      const len0 = WASM_VECTOR_LEN;
       wasm.element_removeAttribute(retptr, this.ptr, ptr0, len0);
       var r0 = getInt32Memory0()[retptr / 4 + 0];
       var r1 = getInt32Memory0()[retptr / 4 + 1];
@@ -748,9 +826,19 @@ export class Element {
   prepend(content, content_type) {
     try {
       const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-      var ptr0 = passStringToWasm0(content, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
-      var len0 = WASM_VECTOR_LEN;
-      wasm.element_prepend(retptr, this.ptr, ptr0, len0, isLikeNone(content_type) ? 0 : addHeapObject(content_type));
+      const ptr0 = passStringToWasm0(
+        content,
+        wasm.__wbindgen_malloc,
+        wasm.__wbindgen_realloc,
+      );
+      const len0 = WASM_VECTOR_LEN;
+      wasm.element_prepend(
+        retptr,
+        this.ptr,
+        ptr0,
+        len0,
+        isLikeNone(content_type) ? 0 : addHeapObject(content_type),
+      );
       var r0 = getInt32Memory0()[retptr / 4 + 0];
       var r1 = getInt32Memory0()[retptr / 4 + 1];
       if (r1) {
@@ -767,9 +855,19 @@ export class Element {
   append(content, content_type) {
     try {
       const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-      var ptr0 = passStringToWasm0(content, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
-      var len0 = WASM_VECTOR_LEN;
-      wasm.element_append(retptr, this.ptr, ptr0, len0, isLikeNone(content_type) ? 0 : addHeapObject(content_type));
+      const ptr0 = passStringToWasm0(
+        content,
+        wasm.__wbindgen_malloc,
+        wasm.__wbindgen_realloc,
+      );
+      const len0 = WASM_VECTOR_LEN;
+      wasm.element_append(
+        retptr,
+        this.ptr,
+        ptr0,
+        len0,
+        isLikeNone(content_type) ? 0 : addHeapObject(content_type),
+      );
       var r0 = getInt32Memory0()[retptr / 4 + 0];
       var r1 = getInt32Memory0()[retptr / 4 + 1];
       if (r1) {
@@ -786,8 +884,12 @@ export class Element {
   setInnerContent(content, content_type) {
     try {
       const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-      var ptr0 = passStringToWasm0(content, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
-      var len0 = WASM_VECTOR_LEN;
+      const ptr0 = passStringToWasm0(
+        content,
+        wasm.__wbindgen_malloc,
+        wasm.__wbindgen_realloc,
+      );
+      const len0 = WASM_VECTOR_LEN;
       wasm.element_setInnerContent(
         retptr,
         this.ptr,
@@ -846,8 +948,12 @@ export class HTMLRewriter {
   constructor(encoding, output_sink) {
     try {
       const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-      var ptr0 = passStringToWasm0(encoding, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
-      var len0 = WASM_VECTOR_LEN;
+      const ptr0 = passStringToWasm0(
+        encoding,
+        wasm.__wbindgen_malloc,
+        wasm.__wbindgen_realloc,
+      );
+      const len0 = WASM_VECTOR_LEN;
       wasm.htmlrewriter_new(retptr, ptr0, len0, addBorrowedObject(output_sink));
       var r0 = getInt32Memory0()[retptr / 4 + 0];
       var r1 = getInt32Memory0()[retptr / 4 + 1];
@@ -868,9 +974,19 @@ export class HTMLRewriter {
   on(selector, handlers) {
     try {
       const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-      var ptr0 = passStringToWasm0(selector, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
-      var len0 = WASM_VECTOR_LEN;
-      wasm.htmlrewriter_on(retptr, this.ptr, ptr0, len0, addHeapObject(handlers));
+      const ptr0 = passStringToWasm0(
+        selector,
+        wasm.__wbindgen_malloc,
+        wasm.__wbindgen_realloc,
+      );
+      const len0 = WASM_VECTOR_LEN;
+      wasm.htmlrewriter_on(
+        retptr,
+        this.ptr,
+        ptr0,
+        len0,
+        addHeapObject(handlers),
+      );
       var r0 = getInt32Memory0()[retptr / 4 + 0];
       var r1 = getInt32Memory0()[retptr / 4 + 1];
       if (r1) {
@@ -902,8 +1018,8 @@ export class HTMLRewriter {
   write(chunk) {
     try {
       const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-      var ptr0 = passArray8ToWasm0(chunk, wasm.__wbindgen_malloc);
-      var len0 = WASM_VECTOR_LEN;
+      const ptr0 = passArray8ToWasm0(chunk, wasm.__wbindgen_malloc);
+      const len0 = WASM_VECTOR_LEN;
       wasm.htmlrewriter_write(retptr, this.ptr, ptr0, len0);
       var r0 = getInt32Memory0()[retptr / 4 + 0];
       var r1 = getInt32Memory0()[retptr / 4 + 1];
@@ -956,9 +1072,19 @@ export class TextChunk {
   before(content, content_type) {
     try {
       const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-      var ptr0 = passStringToWasm0(content, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
-      var len0 = WASM_VECTOR_LEN;
-      wasm.textchunk_before(retptr, this.ptr, ptr0, len0, isLikeNone(content_type) ? 0 : addHeapObject(content_type));
+      const ptr0 = passStringToWasm0(
+        content,
+        wasm.__wbindgen_malloc,
+        wasm.__wbindgen_realloc,
+      );
+      const len0 = WASM_VECTOR_LEN;
+      wasm.textchunk_before(
+        retptr,
+        this.ptr,
+        ptr0,
+        len0,
+        isLikeNone(content_type) ? 0 : addHeapObject(content_type),
+      );
       var r0 = getInt32Memory0()[retptr / 4 + 0];
       var r1 = getInt32Memory0()[retptr / 4 + 1];
       if (r1) {
@@ -975,9 +1101,19 @@ export class TextChunk {
   after(content, content_type) {
     try {
       const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-      var ptr0 = passStringToWasm0(content, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
-      var len0 = WASM_VECTOR_LEN;
-      wasm.textchunk_after(retptr, this.ptr, ptr0, len0, isLikeNone(content_type) ? 0 : addHeapObject(content_type));
+      const ptr0 = passStringToWasm0(
+        content,
+        wasm.__wbindgen_malloc,
+        wasm.__wbindgen_realloc,
+      );
+      const len0 = WASM_VECTOR_LEN;
+      wasm.textchunk_after(
+        retptr,
+        this.ptr,
+        ptr0,
+        len0,
+        isLikeNone(content_type) ? 0 : addHeapObject(content_type),
+      );
       var r0 = getInt32Memory0()[retptr / 4 + 0];
       var r1 = getInt32Memory0()[retptr / 4 + 1];
       if (r1) {
@@ -994,9 +1130,19 @@ export class TextChunk {
   replace(content, content_type) {
     try {
       const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-      var ptr0 = passStringToWasm0(content, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
-      var len0 = WASM_VECTOR_LEN;
-      wasm.textchunk_replace(retptr, this.ptr, ptr0, len0, isLikeNone(content_type) ? 0 : addHeapObject(content_type));
+      const ptr0 = passStringToWasm0(
+        content,
+        wasm.__wbindgen_malloc,
+        wasm.__wbindgen_realloc,
+      );
+      const len0 = WASM_VECTOR_LEN;
+      wasm.textchunk_replace(
+        retptr,
+        this.ptr,
+        ptr0,
+        len0,
+        isLikeNone(content_type) ? 0 : addHeapObject(content_type),
+      );
       var r0 = getInt32Memory0()[retptr / 4 + 0];
       var r1 = getInt32Memory0()[retptr / 4 + 1];
       if (r1) {
@@ -1020,9 +1166,7 @@ export class TextChunk {
       wasm.__wbindgen_add_to_stack_pointer(16);
     }
   }
-  /**
-   * @returns {boolean}
-   */
+  /** */
   get removed() {
     try {
       const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
@@ -1038,9 +1182,7 @@ export class TextChunk {
       wasm.__wbindgen_add_to_stack_pointer(16);
     }
   }
-  /**
-   * @returns {string}
-   */
+  /** */
   get text() {
     try {
       const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
@@ -1062,9 +1204,7 @@ export class TextChunk {
       wasm.__wbindgen_free(ptr0, len0);
     }
   }
-  /**
-   * @returns {boolean}
-   */
+  /** */
   get lastInTextNode() {
     try {
       const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
@@ -1112,123 +1252,131 @@ async function load(module, imports) {
   }
 }
 
-async function init(input) {
-  if (typeof input === "undefined") {
-    input = new URL("deno_lol_html_bg.wasm", import.meta.url);
-  }
+function getImports() {
   const imports = {};
   imports.wbg = {};
   imports.wbg.__wbindgen_object_drop_ref = function (arg0) {
     takeObject(arg0);
   };
   imports.wbg.__wbindgen_string_new = function (arg0, arg1) {
-    var ret = getStringFromWasm0(arg0, arg1);
+    const ret = getStringFromWasm0(arg0, arg1);
     return addHeapObject(ret);
   };
-  imports.wbg.__wbg_html_5ae28989b63cc88b = function (arg0) {
-    var ret = getObject(arg0).html;
+  imports.wbg.__wbg_html_d5091c41bef0070f = function (arg0) {
+    const ret = getObject(arg0).html;
     return isLikeNone(ret) ? 0xFFFFFF : ret ? 1 : 0;
   };
-  imports.wbg.__wbg_documentend_new = function (arg0) {
-    var ret = DocumentEnd.__wrap(arg0);
-    return addHeapObject(ret);
-  };
-  imports.wbg.__wbg_element_d668dcd821275b2e = function (arg0) {
-    var ret = getObject(arg0).element;
+  imports.wbg.__wbg_element_27345e6d35fe0b9e = function (arg0) {
+    const ret = getObject(arg0).element;
     return isLikeNone(ret) ? 0 : addHeapObject(ret);
   };
-  imports.wbg.__wbg_comments_867f58c255911b4e = function (arg0) {
-    var ret = getObject(arg0).comments;
+  imports.wbg.__wbg_comments_229bea835aa1451a = function (arg0) {
+    const ret = getObject(arg0).comments;
     return isLikeNone(ret) ? 0 : addHeapObject(ret);
   };
-  imports.wbg.__wbg_text_6fa97b746b640e98 = function (arg0) {
-    var ret = getObject(arg0).text;
+  imports.wbg.__wbg_text_a95fd5fc39ed43db = function (arg0) {
+    const ret = getObject(arg0).text;
     return isLikeNone(ret) ? 0 : addHeapObject(ret);
   };
-  imports.wbg.__wbg_doctype_d6897df6f5ba91c4 = function (arg0) {
-    var ret = getObject(arg0).doctype;
+  imports.wbg.__wbg_doctype_13f610df13dfcd09 = function (arg0) {
+    const ret = getObject(arg0).doctype;
     return isLikeNone(ret) ? 0 : addHeapObject(ret);
   };
-  imports.wbg.__wbg_comments_05c9691bc5edd7e0 = function (arg0) {
-    var ret = getObject(arg0).comments;
+  imports.wbg.__wbg_comments_81a5d74dc45bd087 = function (arg0) {
+    const ret = getObject(arg0).comments;
     return isLikeNone(ret) ? 0 : addHeapObject(ret);
   };
-  imports.wbg.__wbg_text_75ee98a22b792d23 = function (arg0) {
-    var ret = getObject(arg0).text;
+  imports.wbg.__wbg_text_f90f7b7c44216095 = function (arg0) {
+    const ret = getObject(arg0).text;
     return isLikeNone(ret) ? 0 : addHeapObject(ret);
   };
-  imports.wbg.__wbg_end_86cc7cc81d861c67 = function (arg0) {
-    var ret = getObject(arg0).end;
+  imports.wbg.__wbg_end_b1f55fb9f80582ed = function (arg0) {
+    const ret = getObject(arg0).end;
     return isLikeNone(ret) ? 0 : addHeapObject(ret);
-  };
-  imports.wbg.__wbg_element_new = function (arg0) {
-    var ret = Element.__wrap(arg0);
-    return addHeapObject(ret);
   };
   imports.wbg.__wbg_comment_new = function (arg0) {
-    var ret = Comment.__wrap(arg0);
-    return addHeapObject(ret);
-  };
-  imports.wbg.__wbg_textchunk_new = function (arg0) {
-    var ret = TextChunk.__wrap(arg0);
+    const ret = Comment.__wrap(arg0);
     return addHeapObject(ret);
   };
   imports.wbg.__wbg_doctype_new = function (arg0) {
-    var ret = Doctype.__wrap(arg0);
+    const ret = Doctype.__wrap(arg0);
+    return addHeapObject(ret);
+  };
+  imports.wbg.__wbg_documentend_new = function (arg0) {
+    const ret = DocumentEnd.__wrap(arg0);
+    return addHeapObject(ret);
+  };
+  imports.wbg.__wbg_element_new = function (arg0) {
+    const ret = Element.__wrap(arg0);
     return addHeapObject(ret);
   };
   imports.wbg.__wbindgen_object_clone_ref = function (arg0) {
-    var ret = getObject(arg0);
+    const ret = getObject(arg0);
     return addHeapObject(ret);
   };
-  imports.wbg.__wbg_String_c4052d6424160ac1 = function (arg0, arg1) {
-    var ret = String(getObject(arg1));
-    var ptr0 = passStringToWasm0(ret, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
-    var len0 = WASM_VECTOR_LEN;
+  imports.wbg.__wbg_textchunk_new = function (arg0) {
+    const ret = TextChunk.__wrap(arg0);
+    return addHeapObject(ret);
+  };
+  imports.wbg.__wbg_String_7462bcc0fcdbaf7d = function (arg0, arg1) {
+    const ret = String(getObject(arg1));
+    const ptr0 = passStringToWasm0(
+      ret,
+      wasm.__wbindgen_malloc,
+      wasm.__wbindgen_realloc,
+    );
+    const len0 = WASM_VECTOR_LEN;
     getInt32Memory0()[arg0 / 4 + 1] = len0;
     getInt32Memory0()[arg0 / 4 + 0] = ptr0;
   };
-  imports.wbg.__wbg_set_fbb49ad265f9dee8 = function (arg0, arg1, arg2) {
+  imports.wbg.__wbg_set_e93b31d47b90bff6 = function (arg0, arg1, arg2) {
     getObject(arg0)[takeObject(arg1)] = takeObject(arg2);
   };
-  imports.wbg.__wbg_new_16f24b0728c5e67b = function () {
-    var ret = new Array();
+  imports.wbg.__wbg_new_2ab697f1555e0dbc = function () {
+    const ret = new Array();
     return addHeapObject(ret);
   };
-  imports.wbg.__wbg_new_d3138911a89329b0 = function () {
-    var ret = new Object();
+  imports.wbg.__wbg_new_306ce8d57919e6ae = function () {
+    const ret = new Object();
     return addHeapObject(ret);
   };
-  imports.wbg.__wbg_push_a72df856079e6930 = function (arg0, arg1) {
-    var ret = getObject(arg0).push(getObject(arg1));
-    return ret;
+  imports.wbg.__wbg_set_c1d04f8b45a036e7 = function (arg0, arg1, arg2) {
+    getObject(arg0)[arg1 >>> 0] = takeObject(arg2);
   };
-  imports.wbg.__wbg_new_55259b13834a484c = function (arg0, arg1) {
-    var ret = new Error(getStringFromWasm0(arg0, arg1));
+  imports.wbg.__wbg_new_651776e932b7e9c7 = function (arg0, arg1) {
+    const ret = new Error(getStringFromWasm0(arg0, arg1));
     return addHeapObject(ret);
   };
-  imports.wbg.__wbg_call_94697a95cb7e239c = function () {
+  imports.wbg.__wbg_call_9855a4612eb496cb = function () {
     return handleError(function (arg0, arg1, arg2) {
-      var ret = getObject(arg0).call(getObject(arg1), getObject(arg2));
+      const ret = getObject(arg0).call(getObject(arg1), getObject(arg2));
       return addHeapObject(ret);
     }, arguments);
   };
-  imports.wbg.__wbg_buffer_5e74a88a1424a2e0 = function (arg0) {
-    var ret = getObject(arg0).buffer;
+  imports.wbg.__wbg_buffer_de1150f91b23aa89 = function (arg0) {
+    const ret = getObject(arg0).buffer;
     return addHeapObject(ret);
   };
-  imports.wbg.__wbg_newwithbyteoffsetandlength_278ec7532799393a = function (arg0, arg1, arg2) {
-    var ret = new Uint8Array(getObject(arg0), arg1 >>> 0, arg2 >>> 0);
+  imports.wbg.__wbg_newwithbyteoffsetandlength_9ca61320599a2c84 = function (
+    arg0,
+    arg1,
+    arg2,
+  ) {
+    const ret = new Uint8Array(getObject(arg0), arg1 >>> 0, arg2 >>> 0);
     return addHeapObject(ret);
   };
-  imports.wbg.__wbg_new_e3b800e570795b3c = function (arg0) {
-    var ret = new Uint8Array(getObject(arg0));
+  imports.wbg.__wbg_new_97cf52648830a70d = function (arg0) {
+    const ret = new Uint8Array(getObject(arg0));
     return addHeapObject(ret);
   };
   imports.wbg.__wbindgen_debug_string = function (arg0, arg1) {
-    var ret = debugString(getObject(arg1));
-    var ptr0 = passStringToWasm0(ret, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
-    var len0 = WASM_VECTOR_LEN;
+    const ret = debugString(getObject(arg1));
+    const ptr0 = passStringToWasm0(
+      ret,
+      wasm.__wbindgen_malloc,
+      wasm.__wbindgen_realloc,
+    );
+    const len0 = WASM_VECTOR_LEN;
     getInt32Memory0()[arg0 / 4 + 1] = len0;
     getInt32Memory0()[arg0 / 4 + 0] = ptr0;
   };
@@ -1236,23 +1384,56 @@ async function init(input) {
     throw new Error(getStringFromWasm0(arg0, arg1));
   };
   imports.wbg.__wbindgen_memory = function () {
-    var ret = wasm.memory;
+    const ret = wasm.memory;
     return addHeapObject(ret);
   };
 
+  return imports;
+}
+
+function initMemory(imports, maybe_memory) {
+}
+
+function finalizeInit(instance, module) {
+  wasm = instance.exports;
+  init.__wbindgen_wasm_module = module;
+  cachedInt32Memory0 = new Int32Array(wasm.memory.buffer);
+  cachedUint8Memory0 = new Uint8Array(wasm.memory.buffer);
+
+  return wasm;
+}
+
+function initSync(bytes) {
+  const imports = getImports();
+
+  initMemory(imports);
+
+  const module = new WebAssembly.Module(bytes);
+  const instance = new WebAssembly.Instance(module, imports);
+
+  return finalizeInit(instance, module);
+}
+
+async function init(input) {
+  if (typeof input === "undefined") {
+    input = new URL("deno_lol_html_bg.wasm", import.meta.url);
+  }
+  const imports = getImports();
+
   if (
-    typeof input === "string" || (typeof Request === "function" && input instanceof Request) ||
+    typeof input === "string" ||
+    (typeof Request === "function" && input instanceof Request) ||
     (typeof URL === "function" && input instanceof URL)
   ) {
     input = fetch(input);
   }
 
+  initMemory(imports);
+
   const { instance, module } = await load(await input, imports);
 
-  wasm = instance.exports;
-  init.__wbindgen_wasm_module = module;
-
-  return wasm;
+  return finalizeInit(instance, module);
 }
 
+export { initSync };
 export default init;
