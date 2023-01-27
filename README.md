@@ -5,8 +5,8 @@ Deno bindings for the Rust crate
 Latency streaming HTML rewriter/parser with CSS-selector based API, in
 Webassembly.
 
-> The wasm binding code is based on
-> https://github.com/cloudflare/lol-html/pull/100 by @devsnek
+The wasm binding code is based on
+https://github.com/cloudflare/lol-html/pull/100 by @devsnek
 
 ## Documentation
 
