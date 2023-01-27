@@ -28,10 +28,10 @@ if (import.meta.main) {
   const ok = await run(["wasm-pack", "build", "--target", "web"]);
   if (ok) {
     await Deno.rename("./pkg/deno_lol_html_bg.wasm", "./lol_html.wasm");
-    await Deno.rename("./pkg/deno_lol_html.d.ts", "./types.d.ts");
     const wasmStat = await Deno.stat("./lol_html.wasm");
     const wasmGz = await gzip("./lol_html.wasm");
     const jsCode = await Deno.readTextFile("./pkg/deno_lol_html.js");
+    const dts = await Deno.readTextFile("./pkg/deno_lol_html.d.ts");
     await Deno.writeTextFile(
       "./wasm.js",
       `const ungzip = (data) => new Response(new Blob([data]).stream().pipeThrough(new DecompressionStream("gzip"))).arrayBuffer();\nexport default () => ungzip(Uint8Array.from(atob("${
@@ -39,18 +39,42 @@ if (import.meta.main) {
       }"), c => c.charCodeAt(0)));`,
     );
     await Deno.writeTextFile(
-      "./mod.js",
+      "./lol_html.js",
       jsCode
         .replace(`import * as __wbg_star0 from 'env';`, "")
         .replace(
           `imports['env'] = __wbg_star0;`,
           `imports['env'] = { now: () => Date.now() };`,
         ).replace(
+          /on\(selector, handlers\) \{([\s\S]+?)\}(\s+)\/\*\*/,
+          "on(selector, handlers) {$1;return this}$2/**",
+        ).replace(
+          /onDocument\(handlers\) \{([\s\S]+?)\}(\s+)\/\*\*/,
+          "onDocument(handlers) {$1;return this}$2/**",
+        )
+        .replace(
           "deno_lol_html_bg.wasm",
           "lol_html.wasm",
         ),
     );
-    await run(["deno", "fmt", "-q", "./mod.js", "./types.d.ts"]);
+    await Deno.writeTextFile(
+      "./types.d.ts",
+      dts.replace(
+        "on(selector: string, handlers: any): void",
+        "on(selector: string, handlers: ElementHandlers): this",
+      ).replace(
+        "onDocument(handlers: any): void",
+        "onDocument(handlers: DocumentHandlers): this",
+      ).replaceAll(
+        "content_type?: any",
+        "content_type?: ContentType",
+      ) + [
+        `export interface ElementHandlers { element?: (el: Element) => void, comments?: (comment: Comment) => void, text?: (chunk: TextChunk) => void }`,
+        `export interface DocumentHandlers { doctype?: (doctype: Doctype) => void, comments?: (comment: Comment) => void, text?: (chunk: TextChunk) => void, end?: (end: DocumentEnd) => void }`,
+        `export interface ContentType { html: Boolean }`,
+      ].join("\n"),
+    );
+    await run(["deno", "fmt", "-q", "./lol_html.js", "./types.d.ts"]);
     console.log(
       `wasm size: ${prettyBytes(wasmStat.size)}, gzipped: ${
         prettyBytes(wasmGz.byteLength)

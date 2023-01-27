@@ -7,7 +7,7 @@ export class Comment {
    * @param {string} content
    * @param {any | undefined} content_type
    */
-  before(content: string, content_type?: any): void;
+  before(content: string, content_type?: ContentType): void;
   /**
    * @param {string} content
    * @param {any | undefined} content_type
@@ -121,11 +121,11 @@ export class HTMLRewriter {
    * @param {string} selector
    * @param {any} handlers
    */
-  on(selector: string, handlers: any): void;
+  on(selector: string, handlers: ElementHandlers): this;
   /**
    * @param {any} handlers
    */
-  onDocument(handlers: any): void;
+  onDocument(handlers: DocumentHandlers): this;
   /**
    * @param {Uint8Array} chunk
    */
@@ -365,3 +365,17 @@ export function initSync(module: SyncInitInput): InitOutput;
 export default function init(
   module_or_path?: InitInput | Promise<InitInput>,
 ): Promise<InitOutput>;
+export interface ElementHandlers {
+  element?: (el: Element) => void;
+  comments?: (comment: Comment) => void;
+  text?: (chunk: TextChunk) => void;
+}
+export interface DocumentHandlers {
+  doctype?: (doctype: Doctype) => void;
+  comments?: (comment: Comment) => void;
+  text?: (chunk: TextChunk) => void;
+  end?: (end: DocumentEnd) => void;
+}
+export interface ContentType {
+  html: Boolean;
+}

@@ -1,7 +1,6 @@
 import { concat } from "https://deno.land/std@0.170.0/bytes/mod.ts";
-import init, { HTMLRewriter } from "./mod.js";
+import init, { HTMLRewriter } from "./mod.ts";
 import getWasmData from "./wasm.js";
-import type { Element, TextChunk } from "./types.d.ts";
 
 await init(getWasmData());
 
@@ -20,10 +19,10 @@ const rewriter = new HTMLRewriter("utf8", (chunk: Uint8Array) => {
 });
 
 rewriter.on("a[href]", {
-  element(el: Element) {
+  element(el) {
     el.setAttribute("class", "this-is-a-link");
   },
-  text: (chunk: TextChunk) => {
+  text(chunk) {
     chunk.replace(chunk.text.replaceAll(/:lol/gi, "😂"));
   },
 });

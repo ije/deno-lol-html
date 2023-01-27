@@ -1016,6 +1016,7 @@ export class HTMLRewriter {
     } finally {
       wasm.__wbindgen_add_to_stack_pointer(16);
     }
+    return this;
   }
   /**
    * @param {any} handlers
@@ -1032,6 +1033,7 @@ export class HTMLRewriter {
     } finally {
       wasm.__wbindgen_add_to_stack_pointer(16);
     }
+    return this;
   }
   /**
    * @param {Uint8Array} chunk
