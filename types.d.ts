@@ -12,12 +12,12 @@ export class Comment {
    * @param {string} content
    * @param {any | undefined} content_type
    */
-  after(content: string, content_type?: any): void;
+  after(content: string, content_type?: ContentType): void;
   /**
    * @param {string} content
    * @param {any | undefined} content_type
    */
-  replace(content: string, content_type?: any): void;
+  replace(content: string, content_type?: ContentType): void;
   /** */
   remove(): void;
   /** */
@@ -42,7 +42,7 @@ export class DocumentEnd {
    * @param {string} content
    * @param {any | undefined} content_type
    */
-  append(content: string, content_type?: any): void;
+  append(content: string, content_type?: ContentType): void;
 }
 /** */
 export class Element {
@@ -51,17 +51,17 @@ export class Element {
    * @param {string} content
    * @param {any | undefined} content_type
    */
-  before(content: string, content_type?: any): void;
+  before(content: string, content_type?: ContentType): void;
   /**
    * @param {string} content
    * @param {any | undefined} content_type
    */
-  after(content: string, content_type?: any): void;
+  after(content: string, content_type?: ContentType): void;
   /**
    * @param {string} content
    * @param {any | undefined} content_type
    */
-  replace(content: string, content_type?: any): void;
+  replace(content: string, content_type?: ContentType): void;
   /** */
   remove(): void;
   /**
@@ -87,17 +87,17 @@ export class Element {
    * @param {string} content
    * @param {any | undefined} content_type
    */
-  prepend(content: string, content_type?: any): void;
+  prepend(content: string, content_type?: ContentType): void;
   /**
    * @param {string} content
    * @param {any | undefined} content_type
    */
-  append(content: string, content_type?: any): void;
+  append(content: string, content_type?: ContentType): void;
   /**
    * @param {string} content
    * @param {any | undefined} content_type
    */
-  setInnerContent(content: string, content_type?: any): void;
+  setInnerContent(content: string, content_type?: ContentType): void;
   /** */
   removeAndKeepContent(): void;
   /** */
@@ -140,17 +140,17 @@ export class TextChunk {
    * @param {string} content
    * @param {any | undefined} content_type
    */
-  before(content: string, content_type?: any): void;
+  before(content: string, content_type?: ContentType): void;
   /**
    * @param {string} content
    * @param {any | undefined} content_type
    */
-  after(content: string, content_type?: any): void;
+  after(content: string, content_type?: ContentType): void;
   /**
    * @param {string} content
    * @param {any | undefined} content_type
    */
-  replace(content: string, content_type?: any): void;
+  replace(content: string, content_type?: ContentType): void;
   /** */
   remove(): void;
   /** */
@@ -333,9 +333,9 @@ export interface InitOutput {
   readonly textchunk_text: (a: number, b: number) => void;
   readonly textchunk_last_in_text_node: (a: number, b: number) => void;
   readonly __wbg_textchunk_free: (a: number) => void;
+  readonly __wbg_element_free: (a: number) => void;
   readonly __wbg_documentend_free: (a: number) => void;
   readonly __wbg_doctype_free: (a: number) => void;
-  readonly __wbg_element_free: (a: number) => void;
   readonly __wbindgen_malloc: (a: number) => number;
   readonly __wbindgen_realloc: (a: number, b: number, c: number) => number;
   readonly __wbindgen_add_to_stack_pointer: (a: number) => number;
