@@ -195,11 +195,9 @@ export interface InitOutput {
   readonly comment_remove: (a: number, b: number) => void;
   readonly comment_removed: (a: number, b: number) => void;
   readonly comment_text: (a: number, b: number) => void;
-  readonly __wbg_doctype_free: (a: number) => void;
   readonly doctype_name: (a: number, b: number) => void;
   readonly doctype_public_id: (a: number, b: number) => void;
   readonly doctype_system_id: (a: number, b: number) => void;
-  readonly __wbg_documentend_free: (a: number) => void;
   readonly documentend_append: (
     a: number,
     b: number,
@@ -207,7 +205,6 @@ export interface InitOutput {
     d: number,
     e: number,
   ) => void;
-  readonly __wbg_element_free: (a: number) => void;
   readonly element_before: (
     a: number,
     b: number,
@@ -310,7 +307,6 @@ export interface InitOutput {
     d: number,
   ) => void;
   readonly htmlrewriter_end: (a: number, b: number) => void;
-  readonly __wbg_textchunk_free: (a: number) => void;
   readonly textchunk_before: (
     a: number,
     b: number,
@@ -336,6 +332,10 @@ export interface InitOutput {
   readonly textchunk_removed: (a: number, b: number) => void;
   readonly textchunk_text: (a: number, b: number) => void;
   readonly textchunk_last_in_text_node: (a: number, b: number) => void;
+  readonly __wbg_textchunk_free: (a: number) => void;
+  readonly __wbg_documentend_free: (a: number) => void;
+  readonly __wbg_doctype_free: (a: number) => void;
+  readonly __wbg_element_free: (a: number) => void;
   readonly __wbindgen_malloc: (a: number) => number;
   readonly __wbindgen_realloc: (a: number, b: number, c: number) => number;
   readonly __wbindgen_add_to_stack_pointer: (a: number) => number;
@@ -343,14 +343,16 @@ export interface InitOutput {
   readonly __wbindgen_exn_store: (a: number) => void;
 }
 
+export type SyncInitInput = BufferSource | WebAssembly.Module;
 /**
- * Synchronously compiles the given `bytes` and instantiates the WebAssembly module.
+ * Instantiates the given `module`, which can either be bytes or
+ * a precompiled `WebAssembly.Module`.
  *
- * @param {BufferSource} bytes
+ * @param {SyncInitInput} module
  *
  * @returns {InitOutput}
  */
-export function initSync(bytes: BufferSource): InitOutput;
+export function initSync(module: SyncInitInput): InitOutput;
 
 /**
  * If `module_or_path` is {RequestInfo} or {URL}, makes a request and

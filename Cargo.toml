@@ -1,6 +1,6 @@
 [package]
 name = "deno-lol-html"
-version = "0.0.4"
+version = "0.0.5"
 description = "Low output latency streaming HTML parser/rewriter with CSS selector-based API in Deno, via Webassembly."
 repository = "https://github.com/ije/deno-lol-html"
 authors = ["ije"]
@@ -11,12 +11,12 @@ edition = "2021"
 crate-type = ["cdylib", "rlib"]
 
 [dependencies]
-js-sys = "0.3.58"
-lol_html = "0.3.1"
-serde = { version = "1.0.138", features = ["derive"] }
-serde-wasm-bindgen = "0.4.3"
-wasm-bindgen = "0.2.81"
-thiserror = "1.0.31"
+js-sys = "0.3.60"
+lol_html = "0.3.2"
+serde = { version = "1.0.152", features = ["derive"] }
+serde-wasm-bindgen = "0.4.5"
+wasm-bindgen = "0.2.83"
+thiserror = "1.0.38"
 encoding_rs = "0.8.31"
 
 [profile.release]
