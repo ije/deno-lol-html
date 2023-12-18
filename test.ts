@@ -1,4 +1,4 @@
-import { concat } from "https://deno.land/std@0.170.0/bytes/mod.ts";
+import { concat } from "https://deno.land/std@0.200.0/bytes/mod.ts";
 import init, { HTMLRewriter } from "./mod.ts";
 import getWasmData from "./wasm.js";
 
@@ -23,7 +23,7 @@ rewriter.on("a[href]", {
     el.setAttribute("class", "this-is-a-link");
   },
   text(chunk) {
-    chunk.replace(chunk.text.replaceAll(/:lol/gi, "😂"));
+    chunk.replace(chunk.text.replaceAll(":lol", "😂"));
   },
 });
 

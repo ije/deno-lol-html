@@ -1,5 +1,5 @@
-import { dirname } from "https://deno.land/std@0.170.0/path/mod.ts";
-import { encode } from "https://deno.land/std@0.170.0/encoding/base64.ts";
+import { dirname } from "https://deno.land/std@0.200.0/path/mod.ts";
+import { encode } from "https://deno.land/std@0.200.0/encoding/base64.ts";
 
 async function gzip(path: string): Promise<ArrayBuffer> {
   const f = await Deno.open(path);
@@ -12,22 +12,21 @@ function prettyBytes(n: number) {
   return (n / 1024).toFixed(2) + " KB";
 }
 
-async function run(cmd: string[]) {
-  const p = Deno.run({
-    cmd,
+async function run(cmd: string, ...args: string[]) {
+  const p = new Deno.Command(cmd, {
+    args,
     stdout: "inherit",
     stderr: "inherit",
   });
-  const status = await p.status();
-  p.close();
+  const status = await p.spawn().status;
   return status.success;
 }
 
 if (import.meta.main) {
   Deno.chdir(dirname(new URL(import.meta.url).pathname));
-  const ok = await run(["wasm-pack", "build", "--target", "web"]);
+  const ok = await run("wasm-pack", "build", "--target", "web");
   if (ok) {
-    await Deno.rename("./pkg/deno_lol_html_bg.wasm", "./lol_html.wasm");
+    await Deno.copyFile("./pkg/deno_lol_html_bg.wasm", "./lol_html.wasm");
     const wasmStat = await Deno.stat("./lol_html.wasm");
     const wasmGz = await gzip("./lol_html.wasm");
     const jsCode = await Deno.readTextFile("./pkg/deno_lol_html.js");
@@ -41,11 +40,7 @@ if (import.meta.main) {
     await Deno.writeTextFile(
       "./lol_html.js",
       jsCode
-        .replace(`import * as __wbg_star0 from 'env';`, "")
         .replace(
-          `imports['env'] = __wbg_star0;`,
-          `imports['env'] = { now: () => Date.now() };`,
-        ).replace(
           /on\(selector, handlers\) \{([\s\S]+?)\}(\s+)\/\*\*/,
           "on(selector, handlers) {$1;return this}$2/**",
         ).replace(
@@ -74,7 +69,7 @@ if (import.meta.main) {
         `export interface ContentType { html: Boolean }`,
       ].join("\n"),
     );
-    await run(["deno", "fmt", "-q", "./lol_html.js", "./types.d.ts"]);
+    await run("deno", "fmt", "-q", "./lol_html.js", "./types.d.ts");
     console.log(
       `wasm size: ${prettyBytes(wasmStat.size)}, gzipped: ${
         prettyBytes(wasmGz.byteLength)

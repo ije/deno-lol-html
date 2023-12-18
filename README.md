@@ -1,12 +1,11 @@
-# LOL(😂) HTML for Deno
+# LOL(😂) HTML
 
-Deno bindings for the Rust crate
-[cloudflare/lol-html](https://github.com/cloudflare/lol-html), the Low Output
+Wasm bindings of [cloudflare/lol-html](https://github.com/cloudflare/lol-html) for Deno, the Low Output
 Latency streaming HTML rewriter/parser with CSS-selector based API, in
 Webassembly.
 
-The wasm binding code is based on
-https://github.com/cloudflare/lol-html/pull/100 by @devsnek
+> The wasm bindings code is based on
+> https://github.com/cloudflare/lol-html/pull/100 by @devsnek
 
 ## Documentation
 
@@ -15,8 +14,8 @@ See https://developers.cloudflare.com/workers/runtime-apis/html-rewriter
 ## Example
 
 ```ts
-import { concat } from "https://deno.land/std@0.170.0/bytes/mod.ts";
-import init, { HTMLRewriter } from "https://deno.land/x/lol_html@0.0.6/mod.ts";
+import { concat } from "https://deno.land/std@0.200.0/bytes/mod.ts";
+import init, { HTMLRewriter } from "https://deno.land/x/lol_html@0.1.0/mod.ts";
 
 await init();
 
@@ -34,35 +33,36 @@ const rewriter = new HTMLRewriter("utf8", (chunk: Uint8Array) => {
   chunks.push(chunk);
 });
 
+// add handlers before calling `write` or `end`
 rewriter.on("a[href]", {
   element(el) {
     el.setAttribute("class", "this-is-a-link");
   },
   text(chunk) {
-    chunk.replace(chunk.text.replaceAll(/:lol/gi, "😂"));
+    chunk.replace(chunk.text.replaceAll(":lol", "😂"));
   },
 });
 
-for (const part of parts) {
-  rewriter.write(enc.encode(part));
-}
-
 try {
+  for (const part of parts) {
+    rewriter.write(enc.encode(part));
+  }
   rewriter.end();
   console.log(dec.decode(concat(...chunks)));
 } finally {
+  // don't forget to free the memory
   rewriter.free();
 }
 ```
 
 ## Using Stream
 
-The wasm binding version doesn't implement the `transform` method, you can use
+The wasm binding version doesn't implement the `transform` method in the [docs](https://developers.cloudflare.com/workers/runtime-apis/html-rewriter), you can use
 the `ReadableStream` instead.
 
 ```ts
 import { serve } from "https://deno.land/std@0.170.0/http/server.ts";
-import init, { HTMLRewriter } from "https://deno.land/x/lol_html@0.0.6/mod.ts";
+import init, { HTMLRewriter } from "https://deno.land/x/lol_html@0.1.0/mod.ts";
 
 await init();
 

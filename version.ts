@@ -1,5 +1,5 @@
 /** `VERSION` managed by https://deno.land/x/publish */
-export const VERSION = "0.0.6";
+export const VERSION = "0.1.0";
 
 /** `prepublish` will be invoked before publish */
 export async function prepublish(version: string): Promise<boolean> {
@@ -13,12 +13,10 @@ export async function prepublish(version: string): Promise<boolean> {
     "./README.md",
     readme.replaceAll(/lol_html@[\d\.]+/g, `lol_html@${version}`),
   );
-  const p = Deno.run({
-    cmd: ["deno", "run", "-A", "build.ts"],
+  const cmd = new Deno.Command("deno", {
+    args: ["run", "-A", "build.ts"],
     stdout: "inherit",
     stderr: "inherit",
   });
-  const { success } = await p.status();
-  p.close();
-  return success;
+  return (await cmd.spawn().status).success;
 }

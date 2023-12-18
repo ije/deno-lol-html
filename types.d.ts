@@ -5,17 +5,17 @@ export class Comment {
   free(): void;
   /**
    * @param {string} content
-   * @param {any | undefined} content_type
+   * @param {any | undefined} [content_type]
    */
   before(content: string, content_type?: ContentType): void;
   /**
    * @param {string} content
-   * @param {any | undefined} content_type
+   * @param {any | undefined} [content_type]
    */
   after(content: string, content_type?: ContentType): void;
   /**
    * @param {string} content
-   * @param {any | undefined} content_type
+   * @param {any | undefined} [content_type]
    */
   replace(content: string, content_type?: ContentType): void;
   /** */
@@ -40,7 +40,7 @@ export class DocumentEnd {
   free(): void;
   /**
    * @param {string} content
-   * @param {any | undefined} content_type
+   * @param {any | undefined} [content_type]
    */
   append(content: string, content_type?: ContentType): void;
 }
@@ -49,17 +49,17 @@ export class Element {
   free(): void;
   /**
    * @param {string} content
-   * @param {any | undefined} content_type
+   * @param {any | undefined} [content_type]
    */
   before(content: string, content_type?: ContentType): void;
   /**
    * @param {string} content
-   * @param {any | undefined} content_type
+   * @param {any | undefined} [content_type]
    */
   after(content: string, content_type?: ContentType): void;
   /**
    * @param {string} content
-   * @param {any | undefined} content_type
+   * @param {any | undefined} [content_type]
    */
   replace(content: string, content_type?: ContentType): void;
   /** */
@@ -85,17 +85,17 @@ export class Element {
   removeAttribute(name: string): void;
   /**
    * @param {string} content
-   * @param {any | undefined} content_type
+   * @param {any | undefined} [content_type]
    */
   prepend(content: string, content_type?: ContentType): void;
   /**
    * @param {string} content
-   * @param {any | undefined} content_type
+   * @param {any | undefined} [content_type]
    */
   append(content: string, content_type?: ContentType): void;
   /**
    * @param {string} content
-   * @param {any | undefined} content_type
+   * @param {any | undefined} [content_type]
    */
   setInnerContent(content: string, content_type?: ContentType): void;
   /** */
@@ -138,17 +138,17 @@ export class TextChunk {
   free(): void;
   /**
    * @param {string} content
-   * @param {any | undefined} content_type
+   * @param {any | undefined} [content_type]
    */
   before(content: string, content_type?: ContentType): void;
   /**
    * @param {string} content
-   * @param {any | undefined} content_type
+   * @param {any | undefined} [content_type]
    */
   after(content: string, content_type?: ContentType): void;
   /**
    * @param {string} content
-   * @param {any | undefined} content_type
+   * @param {any | undefined} [content_type]
    */
   replace(content: string, content_type?: ContentType): void;
   /** */
@@ -332,14 +332,19 @@ export interface InitOutput {
   readonly textchunk_removed: (a: number, b: number) => void;
   readonly textchunk_text: (a: number, b: number) => void;
   readonly textchunk_last_in_text_node: (a: number, b: number) => void;
-  readonly __wbg_textchunk_free: (a: number) => void;
-  readonly __wbg_element_free: (a: number) => void;
   readonly __wbg_documentend_free: (a: number) => void;
+  readonly __wbg_element_free: (a: number) => void;
   readonly __wbg_doctype_free: (a: number) => void;
-  readonly __wbindgen_malloc: (a: number) => number;
-  readonly __wbindgen_realloc: (a: number, b: number, c: number) => number;
+  readonly __wbg_textchunk_free: (a: number) => void;
+  readonly __wbindgen_malloc: (a: number, b: number) => number;
+  readonly __wbindgen_realloc: (
+    a: number,
+    b: number,
+    c: number,
+    d: number,
+  ) => number;
   readonly __wbindgen_add_to_stack_pointer: (a: number) => number;
-  readonly __wbindgen_free: (a: number, b: number) => void;
+  readonly __wbindgen_free: (a: number, b: number, c: number) => void;
   readonly __wbindgen_exn_store: (a: number) => void;
 }
 
@@ -362,7 +367,7 @@ export function initSync(module: SyncInitInput): InitOutput;
  *
  * @returns {Promise<InitOutput>}
  */
-export default function init(
+export default function __wbg_init(
   module_or_path?: InitInput | Promise<InitInput>,
 ): Promise<InitOutput>;
 export interface ElementHandlers {
