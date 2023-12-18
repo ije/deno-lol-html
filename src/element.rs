@@ -26,22 +26,22 @@ impl_mutations!(Element);
 
 #[wasm_bindgen]
 impl Element {
-  #[wasm_bindgen(method, getter=tagName)]
+  #[wasm_bindgen(getter=tagName)]
   pub fn tag_name(&self) -> JsResult<String> {
     self.0.get().map(|e| e.tag_name())
   }
 
-  #[wasm_bindgen(method, setter=tagName)]
+  #[wasm_bindgen(setter=tagName)]
   pub fn set_tag_name(&mut self, name: &str) -> JsResult<()> {
     self.0.get_mut()?.set_tag_name(name).into_js_result()
   }
 
-  #[wasm_bindgen(method, getter=namespaceURI)]
+  #[wasm_bindgen(getter=namespaceURI)]
   pub fn namespace_uri(&self) -> JsResult<JsValue> {
     self.0.get().map(|e| e.namespace_uri().into())
   }
 
-  #[wasm_bindgen(method, getter)]
+  #[wasm_bindgen(getter)]
   pub fn attributes(&self) -> JsResult<JsValue> {
     self
       .0
